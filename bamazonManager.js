@@ -153,27 +153,18 @@ function addItem() {
         },
     ]).then((response) => {
         setItem(response.name, response.department, parseFloat(response.price), parseInt(response.quantity))
-        //console.log(response.name, response.department, parseFloat(response.price), parseInt(response.quantity))
         connection.end()
     })
 }
 
 function setItem(product, department, price, quantity) {
-    var query = connection.query("insert into products (product_name, department_name, price, stock_quantity) values(?, ?, ?, ?)",
-        [
+    var query = connection.query("insert into products set ?",
           {
-            product_name: product
-          },
-          {
-            department_name: department
-          },
-          {
-            price: price
-          },
-          {
+            product_name: product,
+            department_name: department,
+            price: price,
             stock_quantity: quantity
           }
-        ]
     )
     console.log("New item added.")
 }
