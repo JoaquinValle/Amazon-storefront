@@ -28,9 +28,11 @@ function showOptions() {
         switch(response.option) {
             case "View Products For Sale":
                 display()
+                connection.end()
                 break
             case "View Low Inventory":
                 displayLow()
+                connection.end()
                 break
             case "Add to Inventory":
                 addInventory()
@@ -110,6 +112,7 @@ function addInventory() {
             var id = invArr.indexOf(response.item) + 1
             var newQuantity = products[id - 1].stock + parseInt(response.quantity)
             inventoryUpdate(newQuantity, id)
+            connection.end()
         })
     })
 }
