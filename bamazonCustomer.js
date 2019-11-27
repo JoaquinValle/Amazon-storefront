@@ -22,7 +22,7 @@ function display() {
     var query = "select * from products"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].product_name, res[i].department_name, "$" + res[i].price, res[i].stock_quantity)
+            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
         }
         console.table(products)
     })
@@ -47,12 +47,16 @@ function customerAction() {
         }
     ]).then((response) => {
         if (products[response.id].stock >= response.quantity) {
-
-            console.log("Enough to buy")
+            var newQuantity = products[response.id].stock - response.quantity
+            console.log("Order is processing...")
+            customerBuy(newQuantity, response.id + 1)
+            var total = products[response.id].price * response.quantity
+            console.log(`Your total is $${total}`)
         }
         else {
             console.log("Insufficient quantity!")
         }
+        connection.end();
     })
 }
 
@@ -63,7 +67,7 @@ function customerBuy(quantity, id) {
             stock_quantity: quantity
         },
         {
-            product_id: id
+            item_id: id
           }
         ]
     )
