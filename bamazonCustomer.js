@@ -1,7 +1,6 @@
 var mysql = require("mysql")
 var inquirer = require("inquirer")
 
-
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -26,14 +25,16 @@ function display() {
         }
         console.table(products)
     })
+
+    function Product(name, department, price, stock) {
+        this.name = name
+        this.department = department
+        this.price = price
+        this.stock = stock
+    }  
 }
 
-function Product(name, department, price, stock) {
-    this.name = name
-    this.department = department
-    this.price = price
-    this.stock = stock
-}
+ 
 
 function customerAction() {
     inquirer.prompt([
@@ -48,8 +49,9 @@ function customerAction() {
     ]).then((response) => {
         if (products[response.id].stock >= response.quantity) {
             var newQuantity = products[response.id].stock - response.quantity
+            var id = parseInt(response.id) + 1
             console.log("Order is processing...")
-            customerBuy(newQuantity, response.id + 1)
+            customerBuy(newQuantity, id)
             var total = products[response.id].price * response.quantity
             console.log(`Your total is $${total}`)
         }
