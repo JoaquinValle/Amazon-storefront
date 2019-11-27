@@ -74,26 +74,55 @@ function displayLow() {
 }
 
 function addInventory() {
+
+    var query = "select * from products"
+    connection.query(query, (err, res) => {
+        for (let i = 0; res.length > i; i++) {
+            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
+        }
+    })
+
+    function Product(name, department, price, stock) {
+        this.name = name
+        this.department = department
+        this.price = price
+        this.stock = stock
+    }  
+
     var invArr = []
     var query = "select product_name from products"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
             invArr.push(res[i].product_name)
-        }
-        console.log(invArr)
-      
+        }      
         inquirer.prompt([
             {
-            type: "list",
+            type: "rawlist",
             name: "item",
             message: "Choose an item to increase inventory number.",
             choices: invArr
             },
             {
-            name: "amount",
+            name: "quantity",
             message: "How many would you like to add?"
             }
         ]).then((response) => {
+            var id = invArr.indexOf(response.item) + 1
+            var newQuantity = products[id - 1].stock + parseInt(response.quantity)
+            inventoryUpdate(newQuantity, id)
         })
     })
+}
+
+function inventoryUpdate(quantity, id) {
+    var query = connection.query("update products set ? where ?",
+        [
+          {
+            stock_quantity: quantity
+        },
+        {
+            item_id: id
+          }
+        ]
+    )
 }
