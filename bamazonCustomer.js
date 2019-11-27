@@ -39,12 +39,12 @@ function display() {
 function customerAction() {
     inquirer.prompt([
         {
-        name: "id",
-        message: "Enter id of the item you want to buy."
+            name: "id",
+            message: "Enter id of the item you want to buy:"
         },
         {
-        name: "quantity",
-        message: "Enter how many units of the product you want to buy."   
+            name: "quantity",
+            message: "Enter how many units of the product you want to buy:"   
         }
     ]).then((response) => {
         if (products[response.id].stock >= response.quantity) {

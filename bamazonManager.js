@@ -37,6 +37,9 @@ function showOptions() {
             case "Add to Inventory":
                 addInventory()
                 break
+            case "Add New Product":
+                addItem()
+                break
         }
     })
 }
@@ -99,14 +102,14 @@ function addInventory() {
         }      
         inquirer.prompt([
             {
-            type: "rawlist",
-            name: "item",
-            message: "Choose an item to increase inventory number.",
-            choices: invArr
+                type: "rawlist",
+                name: "item",
+                message: "Choose an item to increase inventory number:",
+                choices: invArr
             },
             {
-            name: "quantity",
-            message: "How many would you like to add?"
+                name: "quantity",
+                message: "How many would you like to add:"
             }
         ]).then((response) => {
             var id = invArr.indexOf(response.item) + 1
@@ -128,4 +131,49 @@ function inventoryUpdate(quantity, id) {
           }
         ]
     )
+}
+
+function addItem() {
+    inquirer.prompt([
+        {
+            name: "name",
+            message: "Wirte the product name of the item to be added:"
+        },
+        {
+            name: "department",
+            message: "Write the department for the new product:"
+        },
+        {
+            name: "price",
+            message: "Write the price for the product:"
+        },
+        {
+            name: "quantity",
+            message: "Write the stock or quantity for the new product:"
+        },
+    ]).then((response) => {
+        setItem(response.name, response.department, parseFloat(response.price), parseInt(response.quantity))
+        //console.log(response.name, response.department, parseFloat(response.price), parseInt(response.quantity))
+        connection.end()
+    })
+}
+
+function setItem(product, department, price, quantity) {
+    var query = connection.query("insert into products (product_name, department_name, price, stock_quantity) values(?, ?, ?, ?)",
+        [
+          {
+            product_name: product
+          },
+          {
+            department_name: department
+          },
+          {
+            price: price
+          },
+          {
+            stock_quantity: quantity
+          }
+        ]
+    )
+    console.log("New item added.")
 }
