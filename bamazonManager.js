@@ -31,6 +31,10 @@ function showOptions() {
                 break
             case "View Low Inventory":
                 displayLow()
+                break
+            case "Add to Inventory":
+                addInventory()
+                break
         }
     })
 }
@@ -67,4 +71,29 @@ function displayLow() {
         this.price = price
         this.stock = stock
     }  
+}
+
+function addInventory() {
+    var invArr = []
+    var query = "select product_name from products"
+    connection.query(query, (err, res) => {
+        for (let i = 0; res.length > i; i++) {
+            invArr.push(res[i].product_name)
+        }
+        console.log(invArr)
+      
+        inquirer.prompt([
+            {
+            type: "list",
+            name: "item",
+            message: "Choose an item to increase inventory number.",
+            choices: invArr
+            },
+            {
+            name: "amount",
+            message: "How many would you like to add?"
+            }
+        ]).then((response) => {
+        })
+    })
 }
