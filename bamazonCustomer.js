@@ -31,10 +31,26 @@ function display() {
         this.department = department
         this.price = price
         this.stock = stock
-    }  
+    }
 }
 
- 
+ function initial() {
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "choice",
+            message: "Would you like to buy an item?",
+            choices: ["Yes", "No"]
+        }
+    ]).then((answer) => {
+        if (answer.choice === "Yes") {
+            customerAction()
+        }
+        else {
+            connection.end()
+        }
+    })
+ }
 
 function customerAction() {
     inquirer.prompt([

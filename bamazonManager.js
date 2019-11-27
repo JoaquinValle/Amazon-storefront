@@ -115,6 +115,7 @@ function addInventory() {
             var id = invArr.indexOf(response.item) + 1
             var newQuantity = products[id - 1].stock + parseInt(response.quantity)
             inventoryUpdate(newQuantity, id)
+            console.log("Inventory Successfully Updated")
             connection.end()
         })
     })
@@ -166,5 +167,5 @@ function setItem(product, department, price, quantity) {
             stock_quantity: quantity
           }
     )
-    console.log("New item added.")
+    console.log("New item successfully added.")
 }
