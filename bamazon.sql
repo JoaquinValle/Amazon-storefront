@@ -52,6 +52,7 @@ create table departments (
 );
 
 select * from products;
+select * from departments;
 
 delete from products where product_name = "0";
 
