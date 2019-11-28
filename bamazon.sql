@@ -6,10 +6,11 @@ use bamazon_db;
 
 create table products (
 	item_id int not null auto_increment,
-    product_name varchar(100) not null,
-    department_name varchar(50) not null,
-    price decimal(10, 2) not null,
+    product_name varchar (100) not null,
+    department_name varchar (50) not null,
+    price decimal (10, 2) not null,
     stock_quantity int not null,
+    product_sales decimal (10, 2) not null default (0),
     primary key(item_id)
 );
 
@@ -42,6 +43,13 @@ values ("Popcorn Machine", "Cooking", 42.18, 3);
 
 insert into products (product_name, department_name, price, stock_quantity)
 values ("Baseball Bat", "Sports", 22, 11);
+
+create table departments (
+	department_id int not null auto_increment,
+    department_name varchar(100) not null,
+	over_head_costs decimal (10,2) not null,
+    primary key(department_id)
+);
 
 select * from products;
 

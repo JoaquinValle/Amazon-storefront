@@ -66,9 +66,9 @@ function customerAction() {
         if (products[response.id].stock >= response.quantity) {
             var newQuantity = products[response.id].stock - response.quantity
             var id = parseInt(response.id) + 1
-            console.log("Order is processing...")
-            customerBuy(newQuantity, id)
             var total = products[response.id].price * response.quantity
+            console.log("Order is processing...")
+            customerBuy(newQuantity, id, total)
             console.log(`Your total is $${total}`)
         }
         else {
@@ -78,11 +78,12 @@ function customerAction() {
     })
 }
 
-function customerBuy(quantity, id) {
+function customerBuy(quantity, id, sales) {
     var query = connection.query("update products set ? where ?",
         [
           {
-            stock_quantity: quantity
+            stock_quantity: quantity,
+            product_sales: sales
         },
         {
             item_id: id
