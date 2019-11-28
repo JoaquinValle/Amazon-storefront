@@ -135,16 +135,25 @@ function inventoryUpdate(quantity, id) {
 }
 
 function addItem() {
+    var departmentArr = []
+    var query = "select department_name from departments"
+    connection.query(query, (err, res) => {
+        for (let i = 0; res.length > i; i++) {
+            departmentArr.push(res[i].department_name)
+        }
+        console.table(departmentArr)
+    })
+
     inquirer.prompt([
         {
             name: "name",
-            message: "Write the product name of the item to be added:"
+            message: "Wirte the product name of the item to be added:"
         },
         {
             type: "list",
             name: "department",
             message: "Write the department for the new product:",
-            choices: "departments"
+            choices: departmentArr
         },
         {
             name: "price",
