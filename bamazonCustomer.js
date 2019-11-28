@@ -21,7 +21,7 @@ function display() {
     var query = "select * from products"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
+            products[res[i].item_id] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
         }
         console.table(products)
     })
@@ -65,11 +65,11 @@ function customerAction() {
     ]).then((response) => {
         if (products[response.id].stock >= response.quantity) {
             var newQuantity = products[response.id].stock - response.quantity
-            var id = parseInt(response.id) + 1
+            var id = parseInt(response.id)
             var total = products[response.id].price * response.quantity
             console.log("Order is processing...")
             customerBuy(newQuantity, id, total)
-            console.log(`Your total is $${parseInt(total.toFixed(2))}`)
+            console.log(`Your total is $${total}`)
         }
         else {
             console.log("Insufficient quantity!")
