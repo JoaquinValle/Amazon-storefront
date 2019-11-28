@@ -9,8 +9,6 @@ var connection = mysql.createConnection({
     database: "bamazon_db",
 })
 
-var products = {}
-
 connection.connect((err) => {
     if (err) throw err
     showOptions()
@@ -43,6 +41,8 @@ function showOptions() {
         }
     })
 }
+
+var products = {}
 
 function display() {
     var query = "select * from products"
@@ -138,7 +138,7 @@ function addItem() {
     inquirer.prompt([
         {
             name: "name",
-            message: "Wirte the product name of the item to be added:"
+            message: "Write the product name of the item to be added:"
         },
         {
             type: "list",

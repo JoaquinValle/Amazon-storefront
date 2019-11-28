@@ -42,16 +42,18 @@ function productSales() {
     query += "group by departments.department_name, departments.over_head_costs"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].department_name, res[i].over_head_costs, res[i].sales)
+            var profit = res[i].sales - res[i].over_head_costs
+            products[i] = new Product(res[i].department_name, res[i].over_head_costs, res[i].sales, parseInt(profit.toFixed(2)))
         }
         console.table(products)
-        //console.log(res)
+        connection.end()
     })
 
-    function Product(department, overhead, sales) {
+    function Product(department, overhead, sales, profit) {
         this.department = department
         this.overhead = overhead
         this.sales = sales
+        this.profit = profit
     }  
 }
 

@@ -69,7 +69,7 @@ function customerAction() {
             var total = products[response.id].price * response.quantity
             console.log("Order is processing...")
             customerBuy(newQuantity, id, total)
-            console.log(`Your total is $${total}`)
+            console.log(`Your total is $${parseInt(total.toFixed(2))}`)
         }
         else {
             console.log("Insufficient quantity!")
