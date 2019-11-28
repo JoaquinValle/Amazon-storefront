@@ -51,8 +51,39 @@ create table departments (
     primary key(department_id)
 );
 
+insert into departments (department_name, over_head_costs)
+values ("Electronics", 520);
+
+insert into departments (department_name, over_head_costs)
+values ("Board Games", 650);
+
+insert into departments (department_name, over_head_costs)
+values ("Cooking", 750);
+
+insert into departments (department_name, over_head_costs)
+values ("Clothes", 1100);
+
+insert into departments (department_name, over_head_costs)
+values ("Books", 275);
+
+insert into departments (department_name, over_head_costs)
+values ("Home", 920);
+
+insert into departments (department_name, over_head_costs)
+values ("Sports", 325);
+
 select * from products;
 select * from departments;
+
+select department_name, sum(product_sales) from products group by department_name;
+
+select departments.department_name, departments.over_head_costs, sum(product_sales) 
+from departments, products
+where departments.department_name = products.department_name
+group by departments.department_name, departments.over_head_costs;
+
+SHOW VARIABLES LIKE 'sql_mode';
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 
 delete from products where product_name = "0";
 

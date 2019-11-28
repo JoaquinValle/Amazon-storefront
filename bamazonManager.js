@@ -141,8 +141,10 @@ function addItem() {
             message: "Wirte the product name of the item to be added:"
         },
         {
+            type: "list",
             name: "department",
-            message: "Write the department for the new product:"
+            message: "Write the department for the new product:",
+            choices: "departments"
         },
         {
             name: "price",
