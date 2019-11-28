@@ -18,10 +18,10 @@ connection.connect((err) => {
 function showOptions() {
     inquirer.prompt([
         {
-        type: "list",
-        name: "option",
-        message: "Please choose an operation to do.",
-        choices: ["View Product Sales by Department", "Create New Department"]
+            type: "list",
+            name: "option",
+            message: "Please choose an operation to do.",
+            choices: ["View Product Sales by Department", "Create New Department"]
         }
     ]).then((response) => {
         switch(response.option) {
@@ -29,7 +29,7 @@ function showOptions() {
                 productSales()
                 break
             case "Create New Department":
-                newDepartment()
+                addDepartment()
                 break
         }
     })
@@ -57,6 +57,28 @@ function productSales() {
     }  
 }
 
-function newDepartment() {
+function addDepartment() {
+    inquirer.prompt([
+        {
+            name: "name",
+            message: "Please add the name of the department: "
+        },
+        {
+            name: "ohCost",
+            message: "Please add the overhead cost for the department: "
+        }
+    ]).then((response) => {
+        newDepartment(response.name, response.ohCost)
+        console.log("New department added successfully.")
+        connection.end()
+    })
+}
 
+function newDepartment(department, ohCost) {
+    var query = connection.query("insert into departments set ?",
+        {
+            department_name: department,
+            over_head_costs: ohCost,
+        }
+    )
 }
