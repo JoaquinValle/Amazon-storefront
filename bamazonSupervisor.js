@@ -34,22 +34,22 @@ function showOptions() {
         }
     })
 }
-products = {}
+departments = {}
 
 function productSales() {
-    var query = "select departments.department_name, departments.over_head_costs, sum(product_sales) as sales " 
+    var query = "select departments.department_id, departments.department_name, departments.over_head_costs, sum(product_sales) as sales " 
     query += "from departments, products where departments.department_name = products.department_name "
-    query += "group by departments.department_name, departments.over_head_costs"
+    query += "group by departments.department_name, departments.over_head_costs, departments.department_id"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
             var profit = res[i].sales - res[i].over_head_costs
-            products[i] = new Product(res[i].department_name, res[i].over_head_costs, res[i].sales, parseInt(profit.toFixed(2)))
+            departments[res[i].department_id] = new Department(res[i].department_name, res[i].over_head_costs, res[i].sales, parseInt(profit.toFixed(2)))
         }
-        console.table(products)
+        console.table(departments)
         connection.end()
     })
 
-    function Product(department, overhead, sales, profit) {
+    function Department(department, overhead, sales, profit) {
         this.department = department
         this.overhead = overhead
         this.sales = sales
