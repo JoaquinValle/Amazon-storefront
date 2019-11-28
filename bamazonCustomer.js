@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
 connection.connect((err) => {
     if (err) throw err
     display()
-    customerAction()
+    setTimeout(() => {customerAction()}, 150)
 })
 
 var products = {}
@@ -33,24 +33,6 @@ function display() {
         this.stock = stock
     }
 }
-
- function initial() {
-    inquirer.prompt([
-        {
-            type: "list",
-            name: "choice",
-            message: "Would you like to buy an item?",
-            choices: ["Yes", "No"]
-        }
-    ]).then((answer) => {
-        if (answer.choice === "Yes") {
-            customerAction()
-        }
-        else {
-            connection.end()
-        }
-    })
- }
 
 function customerAction() {
     inquirer.prompt([
@@ -76,18 +58,17 @@ function customerAction() {
         }
         connection.end();
     })
-}
-
-function customerBuy(quantity, id, sales) {
-    var query = connection.query("update products set ? where ?",
-        [
-          {
-            stock_quantity: quantity,
-            product_sales: sales
-        },
-        {
-            item_id: id
-          }
-        ]
-    )
+    function customerBuy(quantity, id, sales) {
+        var query = connection.query("update products set ? where ?",
+            [
+              {
+                stock_quantity: quantity,
+                product_sales: sales
+            },
+            {
+                item_id: id
+              }
+            ]
+        )
+    }
 }

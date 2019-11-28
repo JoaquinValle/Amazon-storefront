@@ -42,7 +42,6 @@ function showOptions() {
     })
 }
 
-
 function Product(name, department, price, stock) {
     this.name = name
     this.department = department
@@ -177,4 +176,3 @@ function addItem() {
         console.log("New item successfully added.")
     }
 }
-

@@ -14,7 +14,6 @@ connection.connect((err) => {
     showOptions()
 })
 
-
 function showOptions() {
     inquirer.prompt([
         {
@@ -34,9 +33,9 @@ function showOptions() {
         }
     })
 }
-departments = {}
 
 function productSales() {
+    departments = {}
     var query = "select departments.department_id, departments.department_name, departments.over_head_costs, sum(product_sales) as sales " 
     query += "from departments, products where departments.department_name = products.department_name "
     query += "group by departments.department_name, departments.over_head_costs, departments.department_id"
@@ -72,13 +71,12 @@ function addDepartment() {
         console.log("New department added successfully.")
         connection.end()
     })
-}
-
-function newDepartment(department, ohCost) {
-    var query = connection.query("insert into departments set ?",
-        {
-            department_name: department,
-            over_head_costs: ohCost,
-        }
-    )
+    function newDepartment(department, ohCost) {
+        var query = connection.query("insert into departments set ?",
+            {
+                department_name: department,
+                over_head_costs: ohCost,
+            }
+        )
+    }
 }
