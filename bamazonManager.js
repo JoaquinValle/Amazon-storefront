@@ -42,35 +42,38 @@ function showOptions() {
     })
 }
 
-var products = {}
+
+function Product(name, department, price, stock) {
+    this.name = name
+    this.department = department
+    this.price = price
+    this.stock = stock
+}  
 
 function display() {
+    var products = {}
     var query = "select * from products"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
+            products[res[i].item_id] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
         }
         console.table(products)
     })
 
-    function Product(name, department, price, stock) {
-        this.name = name
-        this.department = department
-        this.price = price
-        this.stock = stock
-    }  
+
 }
 
 function displayLow() {
+    var lowProducts = []
     var query = "select * from products where stock_quantity < 5"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
+            lowProducts[res[i].item_id] = new LowProduct(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
         }
-        console.table(products)
+        console.table(lowProducts)
     })
 
-    function Product(name, department, price, stock) {
+    function LowProduct(name, department, price, stock) {
         this.name = name
         this.department = department
         this.price = price
@@ -79,20 +82,13 @@ function displayLow() {
 }
 
 function addInventory() {
-
+    var products = {}
     var query = "select * from products"
     connection.query(query, (err, res) => {
         for (let i = 0; res.length > i; i++) {
-            products[i] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
+            products[res[i].item_id] = new Product(res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity)
         }
     })
-
-    function Product(name, department, price, stock) {
-        this.name = name
-        this.department = department
-        this.price = price
-        this.stock = stock
-    }  
 
     var invArr = []
     var query = "select product_name from products"
@@ -113,25 +109,26 @@ function addInventory() {
             }
         ]).then((response) => {
             var id = invArr.indexOf(response.item) + 1
-            var newQuantity = products[id - 1].stock + parseInt(response.quantity)
-            inventoryUpdate(newQuantity, id)
+            var name = response.item
+            var newQuantity = parseInt(products[id].stock) + parseInt(response.quantity)
+            inventoryUpdate(newQuantity, name)
             console.log("Inventory Successfully Updated")
             connection.end()
         })
     })
-}
 
-function inventoryUpdate(quantity, id) {
-    var query = connection.query("update products set ? where ?",
-        [
-          {
-            stock_quantity: quantity
-        },
-        {
-            item_id: id
-          }
-        ]
-    )
+    function inventoryUpdate(quantity, name) {
+        var query = connection.query("update products set ? where ?",
+            [
+              {
+                stock_quantity: quantity
+            },
+            {
+                product_name: name
+              }
+            ]
+        )
+    }
 }
 
 function addItem() {
@@ -167,16 +164,17 @@ function addItem() {
         setItem(response.name, response.department, parseFloat(response.price), parseInt(response.quantity))
         connection.end()
     })
+
+    function setItem(product, department, price, quantity) {
+        var query = connection.query("insert into products set ?",
+              {
+                product_name: product,
+                department_name: department,
+                price: price,
+                stock_quantity: quantity
+              }
+        )
+        console.log("New item successfully added.")
+    }
 }
 
-function setItem(product, department, price, quantity) {
-    var query = connection.query("insert into products set ?",
-          {
-            product_name: product,
-            department_name: department,
-            price: price,
-            stock_quantity: quantity
-          }
-    )
-    console.log("New item successfully added.")
-}
