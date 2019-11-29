@@ -75,14 +75,10 @@ values ("Sports", 325);
 select * from products;
 select * from departments;
 
-select department_name, sum(product_sales) from products group by department_name;
-
 select departments.department_id, departments.department_name, departments.over_head_costs, sum(product_sales) as sales
 from departments, products
 where departments.department_name = products.department_name
 group by departments.department_name, departments.over_head_costs, departments.department_id;
 
-
 delete from products where product_name = "0";
-
 update products set stock_quantity = 23 where item_id = 1;

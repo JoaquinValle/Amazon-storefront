@@ -137,13 +137,12 @@ function addItem() {
         for (let i = 0; res.length > i; i++) {
             departmentArr.push(res[i].department_name)
         }
-        console.table(departmentArr)
     })
 
     inquirer.prompt([
         {
             name: "name",
-            message: "Wirte the product name of the item to be added:"
+            message: "Write the product name of the item to be added:"
         },
         {
             type: "list",
