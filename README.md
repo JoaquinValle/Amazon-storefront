@@ -116,7 +116,8 @@ create table departments (
 The query for displaying the departments with prices is the following: 
 
 ```MySQLWorkbench
-select departments.department_id, departments.department_name, departments.over_head_costs, sum(product_sales) as sales
+select departments.department_id, departments.department_name, departments.over_head_costs, 
+sum(product_sales) as sales
 from departments, products
 where departments.department_name = products.department_name
 group by departments.department_name, departments.over_head_costs, departments.department_id;
