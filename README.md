@@ -139,4 +139,4 @@ group by departments.department_name, departments.over_head_costs, departments.d
 
 Joaquin Valle Pinto
 
-[Github Link] (https://github.com/JoaquinValle/)
+[Github Link](https://github.com/JoaquinValle/)
