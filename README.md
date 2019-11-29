@@ -107,9 +107,9 @@ create table products (
 
 create table departments (
 	department_id int not null auto_increment,
-    department_name varchar(100) not null,
+        department_name varchar(100) not null,
 	over_head_costs decimal (10,2) not null,
-    primary key(department_id)
+        primary key(department_id)
 );
 ```
 
