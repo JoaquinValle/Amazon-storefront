@@ -96,13 +96,13 @@ The tables and the columns are defined as follows:
 
 ```MySQLWorkbench
 create table products (
-    item_id int not null auto_increment,
-    product_name varchar (100) not null,
-    department_name varchar (50) not null,
-    price decimal (10, 2) not null,
-    stock_quantity int not null,
-    product_sales decimal (10, 2) not null default (0),
-    primary key(item_id)
+        item_id int not null auto_increment,
+        product_name varchar (100) not null,
+        department_name varchar (50) not null,
+        price decimal (10, 2) not null,
+        stock_quantity int not null,
+        product_sales decimal (10, 2) not null default (0),
+        primary key(item_id)
 );
 
 create table departments (
